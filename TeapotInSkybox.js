@@ -84,12 +84,12 @@ function loadTextureCube(urls) {
     var ct = 0;
     var img = new Array(6);
     var urls = [     
-        "mp_crimimpact/criminal-impact_ft1.png",
-        "mp_crimimpact/criminal-impact_bk1.png",
-        "mp_crimimpact/criminal-impact_up1.png",
-        "mp_crimimpact/criminal-impact_dn1.png",
-        "mp_crimimpact/criminal-impact_rt1.png",
-        "mp_crimimpact/criminal-impact_lf1.png"
+        "criminal-impact_ft1.png",
+        "criminal-impact_bk1.png",
+        "criminal-impact_up1.png",
+        "criminal-impact_dn1.png",
+        "criminal-impact_rt1.png",
+        "criminal-impact_lf1.png"
     ];
 
     for (var i = 0; i < 6; i++) {
