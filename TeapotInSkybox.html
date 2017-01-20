@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>MP3</title>
+
+<script type="x-shader/x-vertex" id="vshaderSB">
+     uniform mat4 projection;
+     uniform mat4 modelview;
+     attribute vec3 coords;
+     varying vec3 vCoords;
+     void main() {
+        gl_Position = projection * (modelview * vec4(coords,1.0));
+        vCoords = coords;
+     }
+</script>
+    
+<script type="x-shader/x-fragment" id="fshaderSB">
+     #ifdef GL_ES
+     precision highp float;
+     #endif
+     varying vec3 vCoords;
+     uniform samplerCube skybox;
+     void main() {
+          gl_FragColor = textureCube(skybox, vCoords);
+     }
+</script>
+
+<script type="x-shader/x-vertex" id="vshader">
+     uniform mat4 projection;
+     uniform mat4 modelview;
+     attribute vec3 coords;
+     attribute vec3 normal;
+     varying vec3 viewCoords;
+     varying vec3 vNormal;
+     void main() {
+        vec4 eyeCoords = modelview * vec4(coords,1.0);
+        gl_Position = projection * eyeCoords;
+        viewCoords = eyeCoords.xyz;
+        vNormal = normal;
+     }
+</script>
+     
+<script type="x-shader/x-fragment" id="fshader">
+     precision mediump float;
+     varying vec3 vCoords;
+     varying vec3 vNormal;
+     varying vec3 viewCoords;
+     uniform samplerCube skybox;
+     uniform mat3 normalMatrix;
+     uniform mat3 invVT;
+     void main() {
+          vec3 R = 2.0 * dot(-viewCoords,normalMatrix * vNormal) * normalMatrix * vNormal + viewCoords;
+          R = invVT * R; 
+          gl_FragColor = textureCube(skybox, R);
+     }
+</script>
+
+<script type="text/javascript" src="gl-matrix-min.js"></script>
+<script type="text/javascript" src="simple-rotator.js"></script>
+<script type="text/javascript" src="create-objects.js"></script>
+<script type="text/javascript" src="mp3.js"></script>
+
+
+</head>
+<body onload="start()">
+
+<h2>TEAPOT</h2>
+
+<p id="message" style="font-weight:bold">
+    Drag your mouse on the skybox to orbit the teapot .
+<br>Press left or right arrow key to rotate the teapot.</p>
+
+
+<div>
+
+    <canvas width=660 height=660 id="glcanvas" style="background-color:black"></canvas>
+
+</div>
+
+
+</body>
+</html>
+
